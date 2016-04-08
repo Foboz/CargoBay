@@ -617,9 +617,14 @@ NSDictionary * CBPurchaseInfoFromTransactionReceipt(NSData *transactionReceiptDa
         return nil;
     }
     
+    // Comment by JesusSpiegel: Skipping local purchase validation. It's failing in Sandbox due to the old hardcoded certificate from April 2016, and it will move to Production in mid May 2016.
+    // Cargobay will still verify the purchase with the Apple Sandbox/Production server after skipping the local verification. Waiting for Cargobay developers to update the hardcoded certificate
+    // in order to move back to Cargobay repository.
+    
+    /*
     NSString *signature = [transactionReceiptDictionary objectForKey:@"signature"];
     NSDate *purchaseDate = CBDateFromDateString([purchaseInfoDictionary objectForKey:@"purchase-date"]);
-    
+     
     if (!CBCheckReceiptSecurity(purchaseInfo, signature, purchaseDate)) {
         if (error) {
             NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
@@ -630,6 +635,7 @@ NSDictionary * CBPurchaseInfoFromTransactionReceipt(NSData *transactionReceiptDa
         
         return nil;
     }
+    */
 
     return purchaseInfoDictionary;
 }
